@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="theme-color" content="#0b1120" />
+    <meta
+      name="description"
+      content="DSA Visualizer — animated, step-by-step sorting, graph traversal, and pathfinding algorithms built with vanilla JS and the Canvas API."
+    />
+    <title>DSA Visualizer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>DSA Visualizer</h1>
+          <p>Algorithms produce a step log; visualizers replay it.</p>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Visualizer mode">
+        <button class="tab" role="tab" data-mode="sorting" aria-selected="true">Sorting</button>
+        <button class="tab" role="tab" data-mode="graph" aria-selected="false">Graph Traversal</button>
+        <button class="tab" role="tab" data-mode="pathfinding" aria-selected="false">Pathfinding</button>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <!-- ============ SORTING ============ -->
+      <section class="view" data-view="sorting" aria-label="Sorting visualizer">
+        <div class="stage">
+          <div class="canvas-wrap">
+            <canvas data-canvas="sorting"></canvas>
+          </div>
+          <div class="transport" data-controls="sorting">
+            <button class="btn primary" data-action="play" aria-label="Play animation">Play</button>
+            <button class="btn" data-action="back">Step back</button>
+            <button class="btn" data-action="forward">Step forward</button>
+            <button class="btn" data-action="reset">Reset</button>
+            <span class="progress" data-output="progress">0 / 0</span>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="field">
+            <label for="sort-algo">Algorithm</label>
+            <select id="sort-algo" data-control="algorithm"></select>
+          </div>
+          <div class="field">
+            <label for="sort-size">Array size <span data-output="size">40</span></label>
+            <input id="sort-size" type="range" min="10" max="120" value="40" data-control="size" />
+          </div>
+          <div class="field">
+            <label for="sort-speed">Speed <span data-output="speed">60%</span></label>
+            <input id="sort-speed" type="range" min="1" max="100" value="60" data-control="speed" />
+          </div>
+          <button class="btn wide" data-control="shuffle">Randomize array</button>
+
+          <div class="metrics">
+            <div class="metric"><span>Comparisons</span><strong data-output="comparisons">0</strong></div>
+            <div class="metric"><span>Swaps / writes</span><strong data-output="swaps">0</strong></div>
+          </div>
+
+          <dl class="complexity" data-output="complexity"></dl>
+          <p class="note" data-output="note"></p>
+
+          <ul class="legend">
+            <li><span class="swatch" style="background:#64748b"></span>Unsorted</li>
+            <li><span class="swatch" style="background:#fbbf24"></span>Comparing</li>
+            <li><span class="swatch" style="background:#fb7185"></span>Swapping / writing</li>
+            <li><span class="swatch" style="background:#34d399"></span>Sorted</li>
+          </ul>
+        </aside>
+      </section>
+
+      <!-- ============ GRAPH ============ -->
+      <section class="view" data-view="graph" hidden aria-label="Graph traversal visualizer">
+        <div class="stage">
+          <div class="canvas-wrap">
+            <canvas data-canvas="graph"></canvas>
+          </div>
+          <div class="transport" data-controls="graph">
+            <button class="btn primary" data-action="play" aria-label="Play animation">Play</button>
+            <button class="btn" data-action="back">Step back</button>
+            <button class="btn" data-action="forward">Step forward</button>
+            <button class="btn" data-action="reset">Reset</button>
+            <span class="progress" data-output="progress">0 / 0</span>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="field">
+            <label for="graph-algo">Algorithm</label>
+            <select id="graph-algo" data-control="algorithm"></select>
+          </div>
+          <div class="field">
+            <label for="graph-speed">Speed <span data-output="speed">60%</span></label>
+            <input id="graph-speed" type="range" min="1" max="100" value="60" data-control="speed" />
+          </div>
+          <div class="button-row">
+            <button class="btn" data-control="random-graph">Random graph</button>
+            <button class="btn" data-control="run">Run traversal</button>
+          </div>
+          <p class="hint">Click empty space to add a node. Click one node then another to connect them. Double-click a node to set it as the start.</p>
+
+          <div class="structure">
+            <span class="structure-label" data-output="structure-label">Queue</span>
+            <div class="structure-track" data-output="structure"></div>
+          </div>
+
+          <dl class="complexity" data-output="complexity"></dl>
+          <p class="note" data-output="note"></p>
+
+          <ul class="legend">
+            <li><span class="swatch" style="background:#64748b"></span>Unvisited</li>
+            <li><span class="swatch" style="background:#fbbf24"></span>In frontier</li>
+            <li><span class="swatch" style="background:#38bdf8"></span>Visited</li>
+            <li><span class="swatch" style="background:#fb7185"></span>Current</li>
+            <li><span class="swatch" style="background:#34d399"></span>Start</li>
+          </ul>
+        </aside>
+      </section>
+
+      <!-- ============ PATHFINDING ============ -->
+      <section class="view" data-view="pathfinding" hidden aria-label="Pathfinding visualizer">
+        <div class="stage">
+          <div class="canvas-wrap grid">
+            <canvas data-canvas="pathfinding"></canvas>
+          </div>
+          <div class="transport" data-controls="pathfinding">
+            <button class="btn primary" data-action="play" aria-label="Play animation">Play</button>
+            <button class="btn" data-action="back">Step back</button>
+            <button class="btn" data-action="forward">Step forward</button>
+            <button class="btn" data-action="reset">Reset</button>
+            <span class="progress" data-output="progress">0 / 0</span>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <div class="field">
+            <label for="path-algo">Algorithm</label>
+            <select id="path-algo" data-control="algorithm"></select>
+          </div>
+          <div class="field">
+            <label for="path-speed">Speed <span data-output="speed">60%</span></label>
+            <input id="path-speed" type="range" min="1" max="100" value="60" data-control="speed" />
+          </div>
+          <div class="field">
+            <label for="paint-mode">Click to place</label>
+            <select id="paint-mode" data-control="paint">
+              <option value="wall">Walls</option>
+              <option value="start">Start cell</option>
+              <option value="end">End cell</option>
+              <option value="erase">Erase</option>
+            </select>
+          </div>
+          <div class="button-row">
+            <button class="btn" data-control="maze">Random maze</button>
+            <button class="btn" data-control="clear">Clear grid</button>
+            <button class="btn" data-control="run">Find path</button>
+          </div>
+
+          <div class="metrics">
+            <div class="metric"><span>Cells explored</span><strong data-output="explored">0</strong></div>
+            <div class="metric"><span>Path length</span><strong data-output="path-length">—</strong></div>
+          </div>
+
+          <dl class="complexity" data-output="complexity"></dl>
+          <p class="note" data-output="note"></p>
+
+          <ul class="legend">
+            <li><span class="swatch" style="background:#22c55e"></span>Start</li>
+            <li><span class="swatch" style="background:#fb7185"></span>End</li>
+            <li><span class="swatch" style="background:#475569"></span>Wall</li>
+            <li><span class="swatch" style="background:#0e7490"></span>Explored</li>
+            <li><span class="swatch" style="background:#a16207"></span>Frontier</li>
+            <li><span class="swatch" style="background:#059669"></span>Shortest path</li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
